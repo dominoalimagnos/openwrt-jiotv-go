@@ -12,11 +12,13 @@ Run [JioTV Go](https://jiotv_go.rabil.me) as a proper OpenWrt service: procd-man
 
 ## Install
 
-From your computer, pointed at the router's SSH:
+One-liner from your computer (macOS or Linux, needs `git` and `ssh`):
 
 ```sh
-./deploy.sh root@192.168.1.100
+git clone https://github.com/wpfyorg/openwrt-jiotv-go && cd openwrt-jiotv-go && ./deploy.sh root@192.168.1.100
 ```
+
+Replace `192.168.1.100` with the LAN IP of **the router that should run JioTV Go**. It doesn't have to be your main router: a dumb AP or any other OpenWrt device on the LAN works, and is often the better choice because it keeps the main router's flash and RAM free. Streams still go out through your main router's internet connection.
 
 That copies the repo over SSH (tar, so Dropbear without sftp is fine), downloads the latest release for the router's CPU, installs the service and starts it. Re-run the same command to upgrade; your config and login are kept.
 
@@ -107,3 +109,7 @@ Optional hardening: add a WAF custom rule that blocks the hostname for countries
 Turn it off with `./deploy.sh root@192.168.1.100 --tunnel --off`.
 
 > Cloudflare's free-plan terms discourage serving video through its network. Light personal use is usually fine, but heavy use risks the account being flagged. Each viewer also uses about 3–8 Mbps of your home upload.
+
+## License
+
+[GPL-3.0](LICENSE). JioTV Go itself is a separate project with its own license; this repo only installs and manages it.
