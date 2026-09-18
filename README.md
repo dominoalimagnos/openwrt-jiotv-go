@@ -2,13 +2,27 @@
 
 Run [JioTV Go](https://jiotv_go.rabil.me) as a proper OpenWrt service: procd-managed, configured through UCI, starts at boot, restarts if it crashes, and keeps your Jio login across reboots and sysupgrades.
 
+## TL;DR
+
+📺 Watch JioTV live channels in a browser or any IPTV app (TiviMate, OTT Navigator, VLC, Kodi), with the TV guide included.
+
+- ⚡ One-command install over SSH, as a procd/UCI service
+- 💾 Flash-friendly: logs and the TV guide live in RAM
+- 📡 Runs on your main router or a dumb AP
+- 🌍 Optional Cloudflare Tunnel to watch from anywhere, even outside India, with no open ports
+- 🔑 Needs a Jio number (one-time OTP) and a router with an Indian IP. Your ISP doesn't have to be Jio.
+
+```sh
+git clone https://github.com/wpfyorg/openwrt-jiotv-go && cd openwrt-jiotv-go && ./deploy.sh root@<router-ip>
+```
+
 ## Requirements
 
 - OpenWrt with `wget` able to reach HTTPS (the default `uclient-fetch` + `ca-bundle` work)
 - CPU: aarch64, armv5–7, x86_64, i386 or riscv64. MIPS has no upstream build.
 - About 18 MB of flash for the binary, or none in RAM mode (see below)
 - About 40 MB RAM while running
-- An Indian IP on the router's WAN, because Jio geo-blocks playback
+- An Indian IP on the router's WAN, because Jio geo-blocks playback. Viewers can be anywhere: through the tunnel, Jio only sees the router.
 
 ## Install
 
