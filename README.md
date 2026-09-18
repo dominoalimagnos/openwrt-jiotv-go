@@ -2,6 +2,8 @@
 
 Run [JioTV Go](https://jiotv_go.rabil.me) as a proper OpenWrt service: procd-managed, configured through UCI, starts at boot, restarts if it crashes, and keeps your Jio login across reboots and sysupgrades.
 
+![JioTV Go web UI running on an OpenWrt router](docs/web-ui.png)
+
 ## TL;DR
 
 📺 Watch JioTV live channels in a browser or any IPTV app (TiviMate, OTT Navigator, VLC, Kodi), with the TV guide included.
