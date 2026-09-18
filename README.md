@@ -75,9 +75,9 @@ Logs: `cat /tmp/log/jiotv_go/jiotv_go.log` or `logread -e jiotv_go`.
 
 ## Watching away from home
 
-JioTV Go has **no password**. Anyone who can reach the port can stream on your Jio account. Keep the port off the open internet: OpenWrt's `wan` zone rejects inbound traffic by default, so don't add a port forward.
+JioTV Go has **no password**. Anyone who can reach it can stream on your Jio account, and Jio can block an account that streams from many places. Never port-forward it.
 
-To watch from elsewhere, use [Tailscale](https://tailscale.com) on the router with a subnet route:
+### Option A: Tailscale (only your own devices)
 
 ```sh
 tailscale up --advertise-routes=192.168.1.0/24   # add --advertise-exit-node to also use home as your internet exit
@@ -85,4 +85,23 @@ tailscale up --advertise-routes=192.168.1.0/24   # add --advertise-exit-node to 
 
 Approve the route in the Tailscale admin console under **Machines → router → Edit route settings**. Then any device on your tailnet can open `http://<router-ip>:5001` from anywhere.
 
-TVs and set-top boxes need the Tailscale app. It is available on Android TV, Fire TV and Apple TV.
+### Option B: Cloudflare Tunnel (share with someone who has no Tailscale)
+
+Nothing is opened on the router; cloudflared dials out to Cloudflare. JioTV Go builds every stream link from the request's hostname, so the protection is a **secret hostname** like `tv-3a7c1e9f0b2d4c68.example.com`. There is no path or password to rewrite, so it works in every IPTV app, DRM channels included.
+
+It stays secret because Cloudflare's wildcard certificate means the name never appears in public certificate logs, and Cloudflare DNS can't be listed. Treat the URL like a password: if it leaks, delete the hostname and make a new one.
+
+1. Generate a name: `echo tv-$(openssl rand -hex 8)`
+2. In [Cloudflare Zero Trust](https://one.dash.cloudflare.com) go to **Networks → Tunnels → Create a tunnel → Cloudflared**, name it, and copy the token: the long string after `--token` in the install command it shows.
+3. Add a **Public hostname**: subdomain = the generated name, your domain, service `HTTP` → `localhost:5001`.
+4. Connect the router:
+   ```sh
+   ./deploy.sh root@192.168.1.100 --tunnel <token>
+   ```
+5. Share `https://<name>.<domain>/playlist.m3u`.
+
+Optional hardening: add a WAF custom rule that blocks the hostname for countries other than the viewer's.
+
+Turn it off with `./deploy.sh root@192.168.1.100 --tunnel --off`.
+
+> Cloudflare's free-plan terms discourage serving video through its network. Light personal use is usually fine, but heavy use risks the account being flagged. Each viewer also uses about 3–8 Mbps of your home upload.
