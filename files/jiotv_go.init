@@ -8,7 +8,7 @@ USE_PROCD=1
 start_service() {
 	config_load jiotv_go
 
-	local enabled bin url host port path_prefix log_path title epg drm disable_logout debug
+	local enabled bin url host port path_prefix log_path epg_path memory_limit title epg drm disable_logout debug
 	config_get_bool enabled main enabled 1
 	[ "$enabled" -eq 1 ] || return 0
 
@@ -19,18 +19,31 @@ start_service() {
 	config_get path_prefix main path_prefix /etc/jiotv_go
 	config_get log_path main log_path /tmp/log/jiotv_go
 	config_get title main title 'JioTV Go'
+	config_get memory_limit main memory_limit 128MiB
 	config_get_bool epg main epg 0
+	config_get epg_path main epg_path /tmp/jiotv_go-epg
 	config_get_bool drm main drm 1
 	config_get_bool disable_logout main disable_logout 1
 	config_get_bool debug main debug 0
 
 	mkdir -p "$path_prefix" "$log_path"
 
+	# keep the daily-rebuilt guide in RAM: jiotv_go follows the symlink and
+	# regenerates the file when it is missing after a reboot
+	if [ "$epg" -eq 1 ] && [ -n "$epg_path" ]; then
+		mkdir -p "$epg_path"
+		[ -L "$path_prefix/epg.xml.gz" ] || rm -f "$path_prefix/epg.xml.gz"
+		ln -sf "$epg_path/epg.xml.gz" "$path_prefix/epg.xml.gz"
+	elif [ -L "$path_prefix/epg.xml.gz" ]; then
+		rm -f "$path_prefix/epg.xml.gz"
+	fi
+
 	procd_open_instance
 	# run.sh re-downloads the binary first when it lives in RAM (/tmp) and was lost on reboot
 	procd_set_param command /usr/libexec/jiotv_go/run.sh "$bin" "$url" serve --host "$host" --port "$port"
 	procd_set_param env \
 		HOME="$path_prefix" \
+		GOMEMLIMIT="$memory_limit" \
 		JIOTV_PATH_PREFIX="$path_prefix" \
 		JIOTV_TITLE="$title" \
 		JIOTV_EPG="$([ "$epg" -eq 1 ] && echo true || echo false)" \

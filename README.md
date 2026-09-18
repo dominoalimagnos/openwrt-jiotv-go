@@ -65,7 +65,9 @@ Edit `/etc/config/jiotv_go`, then `service jiotv_go restart`:
 | `port` | `5001` | listen port |
 | `path_prefix` | `/etc/jiotv_go` | login and settings (flash) |
 | `log_path` | `/tmp/log/jiotv_go` | request log (RAM, because it logs every request) |
-| `epg` | `0` | build the TV guide. Writes several MB into `path_prefix`, so it is off by default to spare flash |
+| `epg` | `0` | build the TV guide (`/epg.xml.gz`, rebuilt daily) |
+| `epg_path` | `/tmp/jiotv_go-epg` | where the guide is kept (RAM; rebuilt after reboot). Empty = flash |
+| `memory_limit` | `128MiB` | soft memory cap (`GOMEMLIMIT`); guide builds otherwise balloon past 200 MB |
 | `drm` | `1` | DRM channels |
 | `disable_logout` | `1` | hide the logout button so a viewer can't log you out |
 | `title` | `JioTV Go` | page title |
